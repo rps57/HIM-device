@@ -38,10 +38,10 @@ while True:
         dhtDevice.exit()
         raise error
 
-	# time between samples
+    # time between samples
     time.sleep(3.0)
-	
-	
+    
+    
 
 ################### Temperature and humidity datalogging ###################
 
@@ -61,7 +61,7 @@ while True:
     humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
 
 
-	# if data is collected, store it
+    # if data is collected, store it
     if humidity is not None and temperature is not None:
        f.write('{0},{1},{2:0.1f}*C,{3:0.1f}%\r\n'.format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature, humidity)) 
     else:
@@ -85,20 +85,20 @@ gps.send_command(b"PMTK220, 1000")
 
 last_print = time.monotonic()
 while True:
-	gps.update()
-	current = time.monotonic()
-	if current - last_print >= 1.0:
-		last_print = current
-		if not gps.has_fix:
-			print("Waiting for fix")
-			continue
-		#print("=" * 40)
-		
-	    print("Latitude: {0:.6f} degrees".format(gps.latitude))
+    gps.update()
+    current = time.monotonic()
+    if current - last_print >= 1.0:
+        last_print = current
+        if not gps.has_fix:
+            print("Waiting for fix")
+            continue
+        #print("=" * 40)
+        
+        print("Latitude: {0:.6f} degrees".format(gps.latitude))
         print("Longitude: {0:.6f} degrees".format(gps.longitude))
- 	    print("Fix quality: {}".format(gps.fix_quality))
-		
-					
+        print("Fix quality: {}".format(gps.fix_quality))
+        
+                    
 ######################## GPS datalogging ########################		
 
 LOG_FILE = "gps.txt" #change to same file as T/H logging after testing functionality 
@@ -111,9 +111,9 @@ gps = adafruit_gps.GPS(uart)
 
 with open(LOG_FILE, LOG_MODE) as outfile:
     while True:
-	    sentence = gps.readline()
-		if not sentence:
-		    continue
-		print(str(sentence, "ascii").strip())
-		outfile.write(sentence)
-		outfile.flush()	
+        sentence = gps.readline()
+        if not sentence:
+            continue
+        print(str(sentence, "ascii").strip())
+        outfile.write(sentence)
+        outfile.flush()	
