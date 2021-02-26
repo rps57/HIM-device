@@ -50,8 +50,8 @@ DHT_PIN = 4
 
 # open pre-made file for data logs
 try:
-    f = open('/home/pi/dht22_logging.csv', 'a+') # this file may need to change
-    if os.stat('/home/pi/dht22_logging.csv').st_size == 0:
+    f = open('/home/pi/HIM-device/dht22_logging.csv', 'a+') # this file may need to change
+    if os.stat('/home/pi/HIM-device/dht22_logging.csv').st_size == 0:
             f.write('Date,Time,Temperature,Humidity\r\n')
 # do nothing			
 except:
