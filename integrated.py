@@ -8,6 +8,7 @@ import os
 import time
 import board
 import busio
+import serial
 import adafruit_dht
 import adafruit_gps
 
@@ -73,7 +74,8 @@ while True:
 
 ################### GPS location collection ###################
 
-uart = busio.UART(board.TX, board.RX, baudrate=9600, timeout=10)
+#uart = busio.UART(board.TX, board.RX, baudrate=9600, timeout=10)
+uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=10)
 
 gps = adafruit_gps.GPS(uart, debug=False)
 
