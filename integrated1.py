@@ -94,9 +94,9 @@ while True:
 			continue
 		#print("=" * 40)
 		
-	print("Latitude: {0:.6f} degrees".format(gps.latitude))
-    print("Longitude: {0:.6f} degrees".format(gps.longitude))
- 	print("Fix quality: {}".format(gps.fix_quality))
+	    print("Latitude: {0:.6f} degrees".format(gps.latitude))
+        print("Longitude: {0:.6f} degrees".format(gps.longitude))
+ 	    print("Fix quality: {}".format(gps.fix_quality))
 		
 					
 ######################## GPS datalogging ########################		
