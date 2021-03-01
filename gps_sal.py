@@ -2,23 +2,15 @@ import time
 import board
 import busio 
 import adafruit_gps
+import serial 
+import os
 
-
-
-uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=10)
-#uart = busio.UART(board.TX, board.RX, baudrate=9600, timeout=10)
-
-#f = open('/home/pi/Project/gps_sal.csv', 'a+')
-#if os.stat('/home/pi/Project/gps_sal.csv').st_size == 0:
-#    f.write()
-
-
-
-
-
+pyserial = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=10)
 gps = adafruit_gps.GPS(pyserial, debug=False)
 
-
+f = open('/home/pi/Project/gps_sal.csv', 'a+')
+if os.stat('/home/pi/Project/gps_sal.csv').st_size == 0L
+    f.write('Date	Time	Latitude	Longtiude\r\n')
 
 gps.send_command(b"PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0")
 
@@ -33,23 +25,25 @@ while True:
 		    print("waiting for fix")
 			continue 
 			
-		print("=" * 40)
-		print("Latitude: {0:.6f} degrees".format(gps.latitude))
-		print("Longitude: {0:.6f} degrees".format(gps.longitude))
-		print("Fix quality: {}".format(gps.fix_quality))
+		print("=" * 90)
+		print("Date: {0}    Time: {1}    Latitude: {2:.6f} degrees    Longitude: {3:.6f}   Fix Quality: {} ".format(
+		    time.strftime('%m/%d/%y'), time.strftime('%H:%M'), gps.latitude, gps.longitude, gps.fix_quality)
+			
+			)
+		print("=" * 90)
+				
+		if gps.latitude is not None and gps.longitude is not None:
+		    f.write(
+			    '{0},{1},{2:.6f} degrees, {3:.6f} degrees\r\n'.format(time.strftime('%m/%d/%y'), 
+				time.strftime('%H:%M'), gps.latitude, gps.longitude)
+				
+				)
+				
+				
+				
+				
+				
 
-# datalogging portion
-		
-LOG_FILE = "gps_sal.csv"
-LOG_MODE = "ab"
 
-with open(LOG_FILE, LOG_MODE) as outfile:
-    while True:
-	    sentence = gps.readline()
-		if not sentence: 
-		    continue 
-		print(str(sentence, "ascii").strip())
-		outfile.write(sentence)
-		outfile.flush()
 			
 
