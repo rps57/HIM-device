@@ -25,12 +25,12 @@ while True:
 		    print("waiting for fix")
 			continue 
 			
-		print("=" * 90)
-		print("Date: {0}    Time: {1}    Latitude: {2:.6f} degrees    Longitude: {3:.6f}   Fix Quality: {} ".format(
+		print("=" * 105)
+		print("Date: {0}    Time: {1}    Latitude: {2:.6f} degrees    Longitude: {3:.6f}   Fix Quality: {4} ".format(
 		    time.strftime('%m/%d/%y'), time.strftime('%H:%M'), gps.latitude, gps.longitude, gps.fix_quality)
 			
 			)
-		print("=" * 90)
+		print("=" * 105)
 				
 		if gps.latitude is not None and gps.longitude is not None:
 		    f.write(
