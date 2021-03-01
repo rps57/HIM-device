@@ -38,6 +38,7 @@ while True:
 				time.strftime('%H:%M'), gps.latitude, gps.longitude)
 				
 				)
+		time.sleep(3)		
 				
 				
 				
