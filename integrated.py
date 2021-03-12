@@ -1,8 +1,9 @@
 import sys
 print (sys.version)
 
+import RPi.GPIO as GPIO
 import os
-import time
+import time, datetime
 import board
 import busio
 import serial
@@ -18,9 +19,17 @@ dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 pyserial = serial .Serial("/dev/ttyS0", baudrate=9600, timeout=10)
 gps = adafruit_gps.GPS(pyserial, debug=False)
 
-f = open('/home/pi/Project/integrated.csv', 'a+')
-if os.stat('/home/pi/Project/integrated.csv').st_size == 0:
-    f.write('Date    Time    Temp    HUmidity    Latitude    Longitude\r\n')
+#####################################
+
+variable = (time.strftime('%m-%d-%y'))              # stores date as variable in filename
+filename = "/home/pi/Project/" + variable + ".csv"  # to allow new file for each day of recording
+
+if not os.path.exists(filename): #creates logfile if it does not already exist
+    f = open(filename, "x")
+
+f = open(filename, 'a+') #appends to logfile 
+if os.stat(filename).st_size == 0:
+    f.write('  Date    Time    Temp    Humidity    Latitude      Longitude\r\n')
 
 gps.send_command(b"PMTH314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0")
 gps.send_command(b"PMTK220,1000")
@@ -45,12 +54,12 @@ while running:
                 continue
 
         print("=" * 125)
-        print("Date: {0}    Time: {1}    Temp: {2}*C    RH: {3}%    Lat: {4} deg    Lon: {5} deg ".format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature_c, humidity, lat, long))
+        print("Date: {0}    Time: {1}    Temp: {2} C    RH: {3}%    Lat: {4} deg    Lon: {5} deg ".format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature_c, humidity, lat, long))
         print("=" * 125)
 
         if temperature_c is not None and humidity is not None and lat is not None and long is not None:
-            f.write('{0}, {1}, {2:.6f}*C, {3:.6f} %, {4:.6f} deg, {5:.6f} deg\r\n'.format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature_c, humidity, lat, long))
-
+            f.write('{0}, {1}, {2:.1f}*C, {3:.1f} %, {4:.6f} deg, {5:.6f} deg\r\n'.format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature_c, humidity, lat, long))
+            #f.write('{0}, {1}, {2:.1f} C, {3:.1f}%\r\n'.format(time.strftime('%m/%d/%y'), time.strftime('%H:%M'), temperature_c, humidity))
         time.sleep(5)
 
 
